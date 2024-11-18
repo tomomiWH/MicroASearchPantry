@@ -1,5 +1,8 @@
 import csv
 from datetime import datetime 
+import time
+import os
+
 
 """
 CS361 Microservice A: Search Pantry Items
@@ -66,35 +69,52 @@ write_search_result(SEARCH_RESULT, result)
 def pantry_micro_service():
     #load pantry items
     pantry = load_pantry_items(PANTRY_ITEMS_DATA)
-    if not pantry:
-        return          # get out of the program
+    # if not pantry:
+    #     return          # get out of the program
+    print("This time microservice starting...")
+
+    while True:
+        time.sleep(2)
+        if os.path.exists(USER_REQUEST_COMMAND):
+            with open(USER_REQUEST_COMMAND, 'r') as command_file:
+                user_command = command_file.read().strip()
+            if not user_command:
+                return          # get out of the program
+
+            # parse the user input command value
+            command_parts = user_command.split(",")
+            if len(command_parts) < 2:
+                print("invalid command format")
+                continue
+
+            
+            # get search type N for Search by Name, I for search by Item ID, E for search by Expiration date, convert all ito lower case for consistent string values for rest of function to pass in
+            search_command_type = user_command[0].lower()
+            search_command_value = user_command[1].lower()
+
+            # execte search functionality based on user command
+            if search_command_type == 'n':                          # Search by Name        N for Name serach
+                result = search_by_item_name(pantry, search_command_value)   
+
+            elif search_command_type == 'i':                        # Search by Item ID     I for Item ID search
+                result = search_by_item_id(pantry, search_command_value)     
+
+            elif search_command_type == 'e':                        # Seaerh by Expiration Date     E for Expiration date
+                result = search_by_expiration_date(pantry, search_command_value)
+
+            else:
+                print("Please be advised invalid search type. Search type must be N, I or E")
+                continue                                               # invalid search type and get out 
+
+            write_search_result(SEARCH_RESULT, result)
+            print(f"Search results written to {SEARCH_RESULT}")
+
+            with open(USER_REQUEST_COMMAND, "w") as file:  
+                file.write("")                                      # clear out file
     
-    # get data user command
-    user_command = read_search_request(USER_REQUEST_COMMAND)
-    print(user_command, type(user_command))
-    if not user_command:
-        return          # get out of the program
-       
-    # get search type N for Search by Name, I for search by Item ID, E for search by Expiration date, convert all ito lower case for consistent string values for rest of function to pass in
-    search_command_type = user_command[0].lower()
-    search_command_value = user_command[1].lower()
-
-    # execte search functionality based on user command
-    if search_command_type == 'n':                          # Search by Name        N for Name serach
-        result = search_by_item_name(pantry, search_command_value)   
-
-    elif search_command_type == 'i':                        # Search by Item ID     I for Item ID search
-        result = search_by_item_id(pantry, search_command_value)     
-
-    elif search_command_type == 'e':                        # Seaerh by Expiration Date     E for Expiration date
-        result = search_by_expiration_date(pantry, search_command_value)
-
-    else:
-        print("Please be advised invalid search type. Search time must be N, I or E")
-        return                                               # invalid search type and get out 
-
-    write_search_result(SEARCH_RESULT, result)
-        
+        # else:     
+        #     time.sleep(2)
+        #     print("MicroAUserCommPipe.txt file is not found.")
 
 if __name__ == "__main__":
 

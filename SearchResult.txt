@@ -1,4 +1,0 @@
-Item ID,item_name,quantity,expiration_date,details
-001,Quinoa,1,05-17-2025,1 lb bag
-007,Almond Flour,1,03-23-2025,3 lb bag
-014,Brown Sugar,1,07-14-2025,32 oz bag
