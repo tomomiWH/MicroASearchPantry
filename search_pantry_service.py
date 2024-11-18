@@ -3,6 +3,7 @@ from datetime import datetime
 
 """
 CS361 Microservice A: Search Pantry Items
+Description: Search functionality
 input:  PantryItems.txt             Read this file contains all Pantry Items which was generated from teammate's main program
 output:  MicroAUserCommPipe.txt      Read this file contains User command values from teammate's main program 
                                     (e.g.  N,Almond   I,004   E,05-17-2025)
