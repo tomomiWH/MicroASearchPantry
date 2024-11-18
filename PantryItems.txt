@@ -1,0 +1,16 @@
+Item ID,item_name,quantity,expiration_date,details
+001,Quinoa,1,05-17-2025,1 lb bag
+002,Jasmine Rice,1,12-19-2025,25 lb bag
+003,Oatmeal,2,07-18-2026,"2 lb bag, sprouted rolled oats"
+004,Chicken Broth,3,09-05-2025,"32 oz carton, low sodium"
+005,Rice Flour,2,09-30-2026,"2 lb bag, Bob's Redmill"
+006,All Purpose Flour,1,03-18-2026,5 lb bag
+007,Almond Flour,1,03-23-2025,3 lb bag
+008,Chocolate Chips,2,08-27-2025,12 oz bag
+009,Pasta,1,05-01-2027,"16 oz box, fusilli noodles"
+010,Chickpeas,3,01-28-2026,15 oz can
+011,Coconut Milk,2,07-15-2025,13 oz can
+012,Rice Noodles,2,10-12-2026,16 oz bag
+013,Sugar,1,09-17-2025,5 lb bag
+014,Brown Sugar,1,07-14-2025,32 oz bag
+015,Canned Tomatoes,2,02-15-2027,15 oz can
