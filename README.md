@@ -71,10 +71,7 @@ Once the microservice processes the request, the response will be written to `Se
         
         with open(SEARCH_RESULT, "w") as file:
             file.write("")
-        with open('SearchResult.txt', 'r') as file:
-            print("--------------- Search Result display -----------------")
-            results = file.read()
-            print(results)
+
 
 #### Example Output Call from `SearchResult.txt`
 
