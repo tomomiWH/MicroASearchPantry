@@ -44,7 +44,7 @@ The microservice reads the user's preferences from `MicroAUserCommPipe.txt`, per
 Create a blank `SearchResult.txt` file in the same directory as your main program.  
 
 2. **Read the Results:**  
-Once the microservice processes the request, the response will be written to `SearchResult.txt`.  
+Once the microservice processes the request, the response will be written to `MicroAUserCommPipe.txt`.  Then, read the `MicroAUserCommPipe.txt` at main program and writes to SearchItems.txt as an ouput at main program. 
 #### Example RECEIVE Call
         ```
         time.sleep(10)
