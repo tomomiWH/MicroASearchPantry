@@ -47,6 +47,30 @@ Create a blank `SearchResult.txt` file in the same directory as your main progra
 Once the microservice processes the request, the response will be written to `SearchResult.txt`.  
 #### Example RECEIVE Call
         ```
+        time.sleep(10)
+        # Read results from MicroAUserCommPipe.txt pipeline
+        with open('MicroAUserCommPipe.txt', "r") as command_file:
+            results = command_file.readlines()
+         
+            print("waiting results back...")
+            time.sleep(5)
+
+            # Check result if contains header column "Item ID"
+            # Write out to SearchResults.txt
+            if results and "Item ID" in results[0]:
+                with open('SearchResult.txt', "w") as result_file:
+                    result_file.writelines(results)
+                print("search results wrote to SearchResults.txt: ", results)
+
+        # Display results
+        with open('SearchResult.txt', 'r') as file:
+            print("--------------- Search Result display -----------------")
+            results = file.read()
+            print("read results from SearchResults.txt : ",results)
+            time.sleep(5)
+        
+        with open(SEARCH_RESULT, "w") as file:
+            file.write("")
         with open('SearchResult.txt', 'r') as file:
             print("--------------- Search Result display -----------------")
             results = file.read()
