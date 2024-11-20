@@ -54,7 +54,7 @@ Once the microservice processes the request, the response will be written to `Se
 
 #### Example Output Call from `SearchResult.txt`
 
-If the search tyep was "N" andsearch term was "Rice," the resulting file might look like:<br>
+If the search type was "N" andsearch term was "Rice," the resulting file might look like:<br>
 
 ```
 Item ID,item_name,quantity,expiration_date,details
