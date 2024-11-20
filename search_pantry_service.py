@@ -9,10 +9,11 @@ CS361 Microservice A: Search Pantry Items
 Description: Search functionality
 input:  PantryItems.txt                    Read this file contains all Pantry Items which was generated from teammate's main program
 input/output:  MicroAUserCommPipe.txt      Read this file contains User command values from teammate's main program and also writes result temporarily
-                                            (e.g.  N,Almond   I,004   E,05-17-2025)
+                                            (e.g.  N,Rice   I,004   E,05-17-2025)
+Read MicroAUserCommPipe.txt to get search type/term -> process to filter results -> Wites results to MicroAUserCommPipe.txt  temporarilly
 """
 PANTRY_ITEMS_DATA = "PantryItems.txt"               # input file
-USER_REQUEST_COMMAND = "MicroAUserCommPipe.txt"     # user command
+USER_REQUEST_COMMAND = "MicroAUserCommPipe.txt"     # user command file (e.g. N,Rice)
 
 
 def load_pantry_items(file_path):
@@ -30,11 +31,14 @@ def search_by_item_name(pantry_items, name):
 #pantry = load_pantry_items(PANTRY_ITEMS_DATA)
 #print("Search Result by Item Name ---- ", search_by_item_name(pantry, "Almond Flour"))
 
+
 # search by ID
 def search_by_item_id(pantry_items, pantry_id):
     return [item for item in pantry_items if item["Item ID"] == pantry_id]
 #print("Search Result by Item ID---- ", search_by_item_id(pantry, "002"))
 
+
+# search by Exipired Date
 def search_by_expiration_date(pantry_items, expiration_date):
     check_date = datetime.strptime(expiration_date, "%m-%d-%Y")
     expired_items = [item for item in pantry_items if datetime.strptime(item["expiration_date"], "%m-%d-%Y") < check_date]
@@ -49,7 +53,7 @@ def write_results_to_pipe(results):
             writer = csv.DictWriter(pipeline_file, fieldnames=results[0].keys())   # writ with header column
             writer.writeheader()
             writer.writerows(results)
-            print(f"wrote results to pipeline {results}")
+        print(f"microservice wrote results to pipeline MicroAUserCommPipe.txt: {results}")
         # else:
         #     pipeline_file.write("Not Found\n")
 
@@ -57,7 +61,10 @@ def write_results_to_pipe(results):
 def pantry_microservice():
     #load pantry items
     pantry_items = load_pantry_items(PANTRY_ITEMS_DATA)
+    
     print("microservice starting...")
+
+    results = []         # initialize results
 
     while True:
         time.sleep(2)
@@ -75,19 +82,19 @@ def pantry_microservice():
 
         # # execte search functionality based on user command
         if search_command_type == 'n':                          # Search by Name        N for Name serach
-            result = search_by_item_name(pantry_items, search_command_value)   
+            results = search_by_item_name(pantry_items, search_command_value)   
 
         elif search_command_type == 'i':                        # Search by Item ID     I for Item ID search
-            result = search_by_item_id(pantry_items, search_command_value)     
+            results = search_by_item_id(pantry_items, search_command_value)     
 
         elif search_command_type == 'e':                        # Seaerh by Expiration Date     E for Expiration date
-            result = search_by_expiration_date(pantry_items, search_command_value)
+            try:
+                results = search_by_expiration_date(pantry_items, search_command_value)
+            except Exception as e:
+                print(f"Error at search by expired date: {e}")
 
-        # else:
-        #     print("Please be advised invalid search type. Search type must be N, I or E")
-        #     result = []
-        if result:
-            write_results_to_pipe(result)
+        if results:
+            write_results_to_pipe(results)
 
 
 if __name__ == "__main__":
